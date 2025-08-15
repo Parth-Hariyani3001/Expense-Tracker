@@ -14,6 +14,7 @@ const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading] = useState(false);
+
   const { register, formState, getValues, handleSubmit } = useForm();
   const { errors } = formState;
 

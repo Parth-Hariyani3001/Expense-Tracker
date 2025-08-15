@@ -63,17 +63,6 @@ const Login: React.FC = () => {
               <InputLabel labelText="Password" />
               <div className="relative">
                 <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                <Button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  buttonDesign="icon"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
-                    <Eye className="w-5 h-5" />
-                  )}
-                </Button>
                 <Input
                   type={showPassword ? "text" : "password"}
                   errorMessage={errors?.password?.message as string}
@@ -86,6 +75,17 @@ const Login: React.FC = () => {
                     },
                   })}
                 />
+                <Button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  buttonDesign="icon"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </Button>
               </div>
               <FormErrorBar
                 errorMessage={errors?.password?.message as string}
