@@ -7,9 +7,16 @@ interface ButtonProps {
   onClick?: () => void;
   children: ReactNode;
   buttonDesign: ButtonDesign;
+  disabled?: boolean;
 }
 
-function Button({ type, onClick, children, buttonDesign }: ButtonProps) {
+function Button({
+  type,
+  onClick,
+  children,
+  buttonDesign,
+  disabled = false,
+}: ButtonProps) {
   let buttonClass;
 
   switch (buttonDesign) {
@@ -24,7 +31,12 @@ function Button({ type, onClick, children, buttonDesign }: ButtonProps) {
   }
 
   return (
-    <button onClick={onClick} type={type} className={buttonClass}>
+    <button
+      onClick={onClick}
+      type={type}
+      className={buttonClass}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

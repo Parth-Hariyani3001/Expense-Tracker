@@ -9,19 +9,24 @@ import FormErrorBar from "../Components/FormErrorBar";
 import InputLabel from "../Components/InputLabel";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
+import { useSignup } from "../hooks/useSignup";
 
 const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading] = useState(false);
+  const { signup, isLoading } = useSignup();
 
-  const { register, formState, getValues, handleSubmit } = useForm();
+  const { reset, register, formState, getValues, handleSubmit } = useForm();
   const { errors } = formState;
 
   async function onSubmit(formData: FieldValues) {
     const { fullName, email, password } = formData;
-
-    console.log(fullName, email, password);
+    signup(
+      { fullName, email, password },
+      {
+        onSettled: () => reset(),
+      }
+    );
   }
 
   return (
@@ -149,7 +154,7 @@ const Signup: React.FC = () => {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" buttonDesign="primary">
+            <Button type="submit" buttonDesign="primary" disabled={isLoading}>
               {isLoading ? (
                 <div className="flex items-center justify-center">
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>

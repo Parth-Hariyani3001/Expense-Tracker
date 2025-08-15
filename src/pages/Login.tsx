@@ -9,19 +9,26 @@ import FormErrorBar from "../Components/FormErrorBar";
 import Input from "../Components/Input";
 import InputLabel from "../Components/InputLabel";
 import Button from "../Components/Button";
+import { useSignin } from "../hooks/useSignin";
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading] = useState(false);
+  const { signin, isLoading } = useSignin();
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
 
-  function onSubmit(formData: FieldValues) {
+  async function onSubmit(formData: FieldValues) {
     const { email, password } = formData;
-    console.log(email, password);
+    signin(
+      { email, password },
+      {
+        onSettled: () => reset(),
+      }
+    );
   }
 
   return (
@@ -93,7 +100,7 @@ const Login: React.FC = () => {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" buttonDesign="primary">
+            <Button type="submit" buttonDesign="primary" disabled={isLoading}>
               {isLoading ? (
                 <div className="flex items-center justify-center">
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>

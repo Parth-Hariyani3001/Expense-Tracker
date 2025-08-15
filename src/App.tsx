@@ -5,7 +5,8 @@ import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import { Toaster } from "react-hot-toast";
 import AppLayout from "./Components/AppLayout.tsx";
-import Dashboard from "./Components/Dashboard.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import ProtectedRoute from "./Components/ProtectedRoute.tsx";
 
 const client = new QueryClient({
   defaultOptions: {
@@ -23,7 +24,13 @@ function App() {
         <Routes>
           <Route path="signin" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="/" element={<AppLayout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
           </Route>

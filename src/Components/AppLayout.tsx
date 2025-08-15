@@ -13,6 +13,7 @@ import {
   DollarSign,
 } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import Logout from "./Logout";
 
 const Layout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -67,7 +68,7 @@ const Layout: React.FC = () => {
           </div>
 
           {/* Right side - Notifications and Profile */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 gap-4">
             <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative">
               <Bell className="w-5 h-5 text-gray-600" />
               <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
@@ -82,6 +83,7 @@ const Layout: React.FC = () => {
                 <p className="text-xs text-gray-500">john@example.com</p>
               </div>
             </div>
+            <Logout />
           </div>
         </div>
       </header>
@@ -89,7 +91,7 @@ const Layout: React.FC = () => {
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden"
+          className="fixed inset-0 backdrop-blur-sm bg-opacity-50 z-50 lg:hidden"
           onClick={toggleSidebar}
         />
       )}
