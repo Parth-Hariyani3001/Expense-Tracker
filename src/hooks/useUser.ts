@@ -8,8 +8,6 @@ export function useUser() {
         queryFn: getCurrentUser
     });
 
-    console.log(user)
-
     if (error)
         toast.error(error.message);
 

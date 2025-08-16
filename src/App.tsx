@@ -7,6 +7,8 @@ import { Toaster } from "react-hot-toast";
 import AppLayout from "./Components/AppLayout.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import ProtectedRoute from "./Components/ProtectedRoute.tsx";
+import Categories from "./pages/Categories.tsx";
+import Transactions from "./pages/Transactions.tsx";
 
 const client = new QueryClient({
   defaultOptions: {
@@ -33,6 +35,8 @@ function App() {
           >
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="transactions" element={<Transactions />} />
           </Route>
         </Routes>
       </BrowserRouter>
