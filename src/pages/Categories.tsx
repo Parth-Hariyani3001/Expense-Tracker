@@ -1,25 +1,12 @@
 import React, { useState } from "react";
-import {
-  Plus,
-  Edit2,
-  Trash2,
-  ChevronRight,
-  Search,
-  Filter,
-  MoreVertical,
-  FolderPlus,
-  Tag,
-} from "lucide-react";
-
-interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  color: string;
-  parentId?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Edit2, Trash2, ChevronRight, Search, Filter, Tag } from "lucide-react";
+import useOutSideClick from "../hooks/useOutsideClick";
+import { useCategories } from "../features/categories/useCategories";
+import CategoryHeader from "../features/categories/CategoryHeader";
+import FullPage from "../Components/FullPage";
+import Spinner from "../Components/Spinner";
+import type { Category } from "../features/categories/categoryTypes";
+import CategoryItem from "../features/categories/CategoryItem";
 
 interface CategoryFormData {
   name: string;
@@ -29,72 +16,20 @@ interface CategoryFormData {
 }
 
 const Categories: React.FC = () => {
-  const [categories, setCategories] = useState<Category[]>([
-    {
-      id: "1",
-      name: "Food & Dining",
-      description: "All food related expenses",
-      color: "#ef4444",
-      createdAt: "2024-01-01",
-      updatedAt: "2024-01-01",
-    },
-    {
-      id: "2",
-      name: "Restaurants",
-      description: "Dining out expenses",
-      color: "#f97316",
-      parentId: "1",
-      createdAt: "2024-01-01",
-      updatedAt: "2024-01-01",
-    },
-    {
-      id: "3",
-      name: "Groceries",
-      description: "Grocery shopping",
-      color: "#22c55e",
-      parentId: "1",
-      createdAt: "2024-01-01",
-      updatedAt: "2024-01-01",
-    },
-    {
-      id: "4",
-      name: "Transportation",
-      description: "Travel and transport expenses",
-      color: "#3b82f6",
-      createdAt: "2024-01-01",
-      updatedAt: "2024-01-01",
-    },
-    {
-      id: "5",
-      name: "Gas",
-      description: "Fuel expenses",
-      color: "#8b5cf6",
-      parentId: "4",
-      createdAt: "2024-01-01",
-      updatedAt: "2024-01-01",
-    },
-    {
-      id: "6",
-      name: "Public Transport",
-      description: "Bus, train, metro expenses",
-      color: "#06b6d4",
-      parentId: "4",
-      createdAt: "2024-01-01",
-      updatedAt: "2024-01-01",
-    },
-    {
-      id: "7",
-      name: "Entertainment",
-      description: "Fun and leisure activities",
-      color: "#ec4899",
-      createdAt: "2024-01-01",
-      updatedAt: "2024-01-01",
-    },
-  ]);
+  const { categories, isLoading } = useCategories();
 
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(["1", "4"])
-  );
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      color: "#3b82f6",
+      parentId: "",
+    });
+    setEditingCategory(null);
+    setShowModal(false);
+  };
+
+  const { ref } = useOutSideClick(resetForm);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -104,6 +39,13 @@ const Categories: React.FC = () => {
     color: "#3b82f6",
     parentId: "",
   });
+
+  // Method to show the Modal
+  const handleShowModal = () => setShowModal(true);
+
+  // To get the parent category
+  // const getParentCategories = () =>
+  //   categoryData.reduce((cat, acc) => cat.category_name, []);
 
   const colors = [
     "#ef4444",
@@ -125,26 +67,6 @@ const Categories: React.FC = () => {
     "#f43f5e",
     "#64748b",
   ];
-
-  const getParentCategories = () => categories.filter((cat) => !cat.parentId);
-  const getChildCategories = (parentId: string) =>
-    categories.filter((cat) => cat.parentId === parentId);
-
-  const filteredCategories = categories.filter(
-    (category) =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      category.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const toggleExpanded = (categoryId: string) => {
-    const newExpanded = new Set(expandedCategories);
-    if (newExpanded.has(categoryId)) {
-      newExpanded.delete(categoryId);
-    } else {
-      newExpanded.add(categoryId);
-    }
-    setExpandedCategories(newExpanded);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -203,17 +125,6 @@ const Categories: React.FC = () => {
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      name: "",
-      description: "",
-      color: "#3b82f6",
-      parentId: "",
-    });
-    setEditingCategory(null);
-    setShowModal(false);
-  };
-
   const renderCategoryItem = (category: Category, level: number = 0) => {
     const hasChildren = getChildCategories(category.id).length > 0;
     const isExpanded = expandedCategories.has(category.id);
@@ -222,11 +133,19 @@ const Categories: React.FC = () => {
     return (
       <div
         key={category.id}
-        className="bg-white rounded-xl shadow-sm mb-3 overflow-hidden transition-all duration-300 hover:shadow-md"
+        className={`${
+          level === 0
+            ? "bg-white rounded-xl shadow-sm mb-3 overflow-hidden transition-all duration-300 hover:shadow-md"
+            : ""
+        }`}
       >
         <div
           className={`flex items-center justify-between p-5 hover:bg-gray-50 transition-all duration-200 ${
-            level > 0 ? "ml-6 border-l-4 bg-gray-50/50" : ""
+            level > 0
+              ? "ml-8 border-l-4 bg-gray-50/50 rounded-r-lg mb-2"
+              : hasChildren && isExpanded
+              ? "rounded-t-xl"
+              : "rounded-xl"
           }`}
           style={level > 0 ? { borderLeftColor: category.color } : {}}
         >
@@ -295,7 +214,7 @@ const Categories: React.FC = () => {
 
         {hasChildren && (
           <div
-            className={`bg-gradient-to-r from-gray-50 to-gray-100/50 transition-all duration-500 ease-in-out overflow-hidden ${
+            className={`bg-gradient-to-r from-gray-50 to-gray-100/50 transition-all duration-500 ease-in-out overflow-hidden rounded-b-xl ${
               isExpanded ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
             }`}
           >
@@ -306,71 +225,21 @@ const Categories: React.FC = () => {
     );
   };
 
+  if (isLoading) {
+    return (
+      <FullPage>
+        <Spinner />
+      </FullPage>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Categories</h1>
-          <p className="text-gray-600 mt-1">
-            Manage your expense categories and subcategories.
-          </p>
-        </div>
-        <div className="flex items-center space-x-3 mt-4 sm:mt-0">
-          <button
-            onClick={() => setShowModal(true)}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Add Category</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <FolderPlus className="w-6 h-6 text-blue-600" />
-            </div>
-            <span className="text-2xl font-bold text-gray-900">
-              {getParentCategories().length}
-            </span>
-          </div>
-          <h3 className="text-sm font-medium text-gray-600 mt-4">
-            Parent Categories
-          </h3>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <Tag className="w-6 h-6 text-green-600" />
-            </div>
-            <span className="text-2xl font-bold text-gray-900">
-              {categories.filter((cat) => cat.parentId).length}
-            </span>
-          </div>
-          <h3 className="text-sm font-medium text-gray-600 mt-4">
-            Subcategories
-          </h3>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <MoreVertical className="w-6 h-6 text-purple-600" />
-            </div>
-            <span className="text-2xl font-bold text-gray-900">
-              {categories.length}
-            </span>
-          </div>
-          <h3 className="text-sm font-medium text-gray-600 mt-4">
-            Total Categories
-          </h3>
-        </div>
-      </div>
+      <CategoryHeader
+        handleShowModal={handleShowModal}
+        categories={categories as Category[]}
+      />
 
       {/* Search and Filters */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -395,25 +264,31 @@ const Categories: React.FC = () => {
       </div>
 
       {/* Categories List */}
-      <div className="space-y-2">
-        {searchTerm
+      <div className="space-y-2 flex flex-col gap-2">
+        {/* {searchTerm
           ? // Show filtered results
             filteredCategories.map((category) => renderCategoryItem(category))
           : // Show hierarchical structure
             getParentCategories().map((category) =>
               renderCategoryItem(category)
-            )}
+            )} */}
+
+        {searchTerm ? (
+          <div>Hello World</div>
+        ) : (
+          categories?.map((cat) => <CategoryItem category={cat} key={cat.id} />)
+        )}
       </div>
 
+      {/* ref */}
+      {/* onClick={resetForm} */}
+      {/* onClick={(e) => e.stopPropagation()} */}
       {/* Modal */}
       {showModal && (
-        <div
-          className="fixed inset-0 bg-transparent bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onClick={resetForm}
-        >
+        <div className="fixed inset-0 bg-transparent bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div
             className="bg-white rounded-xl shadow-xl w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
+            ref={ref}
           >
             <div className="p-6 border-b border-gray-200">
               <h2 className="text-xl font-semibold text-gray-900">
@@ -471,7 +346,7 @@ const Categories: React.FC = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="">None (Parent Category)</option>
-                  {getParentCategories()
+                  {/* {getParentCategories()
                     .filter(
                       (cat) => !editingCategory || cat.id !== editingCategory.id
                     )
@@ -479,7 +354,7 @@ const Categories: React.FC = () => {
                       <option key={category.id} value={category.id}>
                         {category.name}
                       </option>
-                    ))}
+                    ))} */}
                 </select>
               </div>
 
