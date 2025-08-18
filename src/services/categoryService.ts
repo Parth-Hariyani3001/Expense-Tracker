@@ -1,4 +1,4 @@
-import type { Categories } from "../features/categories/categoryTypes";
+import type { Category } from "../features/categories/categoryTypes";
 import supabase from "./supabase";
 
 
@@ -8,5 +8,5 @@ export async function getCategoryData() {
     if (error)
         throw new Error(error.message);
 
-    return data as Categories[];
+    return data as Category[];
 }

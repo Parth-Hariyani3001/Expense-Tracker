@@ -1,6 +1,6 @@
 import { FolderPlus, MoreVertical, Plus, Tag } from "lucide-react";
 import Button from "../../Components/Button";
-import type { Categories } from "./categoryTypes";
+import type { Category } from "./categoryTypes";
 import CategoryStatItem from "./CategoryStatItem";
 
 function CategoryHeader({
@@ -8,15 +8,15 @@ function CategoryHeader({
   categories,
 }: {
   handleShowModal: () => void;
-  categories: Categories[];
+  categories: Category[];
 }) {
   // get the count of all the child items for a particular parent category
   const getChildCategoryCount = () =>
-    categories.reduce((acc, cat) => acc + cat.child_categories.length, 0);
+    categories.reduce((acc, cat) => acc + cat.childCategories.length, 0);
 
   // get the count of all the child items plus the count of that current parent category
   const getTotalCategoryCount = () =>
-    categories.reduce((acc, cat) => acc + cat.child_categories.length + 1, 0);
+    categories.reduce((acc, cat) => acc + cat.childCategories.length + 1, 0);
 
   return (
     <>
