@@ -1,3 +1,5 @@
+import type { Database, TablesInsert } from "../../types/database.types";
+
 export type ChildCategory = {
     id: number;
     color: string;
@@ -13,5 +15,9 @@ export type Category = {
     color: string,
     description: string | null,
     createdAt: string,
+    categoryType: CategoryType,
     childCategories: ChildCategory[],
 }
+
+export type CategoryCreate = TablesInsert<"categories">
+export type CategoryType = Database["public"]["Enums"]["category_type"]

@@ -16,7 +16,7 @@ function NavigationItem({
         className={({ isActive }) =>
           `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
             isActive
-              ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700"
+              ? "bg-blue-50 text-blue-700"
               : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
           }`
         }

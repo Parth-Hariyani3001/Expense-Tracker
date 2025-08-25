@@ -15,7 +15,6 @@ const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signup, isLoading } = useSignup();
-
   const { reset, register, formState, getValues, handleSubmit } = useForm();
   const { errors } = formState;
 
@@ -30,12 +29,12 @@ const Signup: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4 ">
+      <div className="w-full max-w-md flex flex-col items-center justify-center ">
         <AuthHeader description="Create your account to start tracking expenses." />
 
         {/* Auth Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 md:w-2xl">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 md:w-2xl dark:bg-gray-800 dark:border-gray-700 transition-colors duration-300">
           <FormHeader
             heading="Create Account"
             description="Fill in your information to get started"
@@ -46,7 +45,7 @@ const Signup: React.FC = () => {
             <div>
               <InputLabel labelText="Full Name" />
               <div className="relative">
-                <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <User className="absolute left-3 top-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <Input
                   type="text"
                   errorMessage={errors?.fullName?.message as string}
@@ -69,7 +68,7 @@ const Signup: React.FC = () => {
             <div>
               <InputLabel labelText="Email Address" />
               <div className="relative">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <Input
                   type="email"
                   errorMessage={errors?.email?.message as string}
@@ -90,7 +89,7 @@ const Signup: React.FC = () => {
             <div>
               <InputLabel labelText="Password" />
               <div className="relative">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <Input
                   type={showPassword ? "text" : "password"}
                   errorMessage={errors?.password?.message as string}
@@ -124,7 +123,7 @@ const Signup: React.FC = () => {
             <div>
               <InputLabel labelText="Confirm Password" />
               <div className="relative">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <Input
                   type={showConfirmPassword ? "text" : "password"}
                   errorMessage={errors?.confirmPassword?.message as string}

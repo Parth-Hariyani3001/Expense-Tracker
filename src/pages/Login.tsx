@@ -32,12 +32,12 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md flex flex-col items-center justify-center">
         <AuthHeader description=" Welcome back! Please sign in to continue." />
 
         {/* Auth Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 md:w-2xl">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border dark:bg-gray-800 dark:border-gray-700 transition-colors duration-300 border-gray-100 md:w-2xl">
           <FormHeader
             heading="Sign In"
             description="Enter your credentials to access your account"
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
             <div>
               <InputLabel labelText="Email Address" />
               <div className="relative">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <Input
                   type="email"
                   errorMessage={errors?.email?.message as string}
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
             <div>
               <InputLabel labelText="Password" />
               <div className="relative">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <Input
                   type={showPassword ? "text" : "password"}
                   errorMessage={errors?.password?.message as string}

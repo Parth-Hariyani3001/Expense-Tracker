@@ -1,10 +1,9 @@
 import { ChevronRight, Edit2, Tag, Trash2 } from "lucide-react";
-import type { Category, ChildCategory } from "./categoryTypes";
+import type { Category, CategoryType, ChildCategory } from "./categoryTypes";
 
 function CategoryContent({
   color,
   isChild,
-  hasChildren,
   toggleExpand,
   categoryName,
   description,
@@ -12,9 +11,9 @@ function CategoryContent({
   expand,
   handleEdit,
   category,
+  categoryType,
 }: {
   isChild: boolean;
-  hasChildren: boolean;
   color: string;
   toggleExpand: () => void;
   categoryName: string;
@@ -23,22 +22,39 @@ function CategoryContent({
   createdAt: string;
   handleEdit: (category: Category | ChildCategory) => void;
   category: ChildCategory | Category;
+  categoryType?: CategoryType;
 }) {
   function placeholderFunction() {
     console.log("called");
   }
+
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case "income":
+        return "bg-green-100 text-green-700";
+      case "expense":
+        return "bg-red-100 text-red-700";
+      case "debt":
+        return "bg-orange-100 text-orange-700";
+      case "investment":
+        return "bg-purple-100 text-purple-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
   return (
     <div
-      className={`flex items-center gap-4 justify-between p-5 hover:bg-gray-50 transition-all duration-200 border-l-4 bg-gray-50/50 rounded-r-lg mb-2 ${
+      className={`flex items-center justify-between p-5 hover:bg-gray-50 transition-all duration-200 ${
         isChild ? "ml-8 border-l-4 bg-gray-50/50 rounded-r-lg mb-2" : ""
       }`}
-      style={{ borderLeftColor: color }}
+      style={isChild ? { borderLeftColor: color } : {}}
     >
       <div className="flex items-center space-x-3 flex-1">
-        {hasChildren && (
+        {!isChild && (
           <button onClick={toggleExpand}>
             <div
-              className={`transform transition-transform duration-300 ${
+              className={`p-2 hover:bg-white hover:shadow-sm rounded-lg transition-all duration-200 group ${
                 expand ? "rotate-90" : "rotate-0"
               }`}
             >
@@ -75,6 +91,15 @@ function CategoryContent({
               <Tag className="w-3 h-3 mr-1" />
               {isChild ? "Sub Category" : "Parent Category"}
             </span>
+            {!isChild && categoryType && (
+              <span
+                className={`flex items-center px-2 py-1 rounded-full font-medium ${getTypeColor(
+                  categoryType
+                )}`}
+              >
+                {categoryType.charAt(0).toUpperCase() + categoryType.slice(1)}
+              </span>
+            )}
           </div>
         </div>
       </div>

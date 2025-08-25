@@ -1,24 +1,17 @@
+import { Filter, Search } from "lucide-react";
 import React, { useState } from "react";
-import { Search, Filter } from "lucide-react";
-import { colors } from "../data/colourList";
-import useOutSideClick from "../hooks/useOutsideClick";
-import { useCategories } from "../features/categories/useCategories";
-import CategoryHeader from "../features/categories/CategoryHeader";
 import FullPage from "../Components/FullPage";
 import Spinner from "../Components/Spinner";
+import CategoryForm from "../features/categories/CategoryForm";
+import CategoryHeader from "../features/categories/CategoryHeader";
 import CategoryItem from "../features/categories/CategoryItem";
+import { useCategories } from "../features/categories/useCategories";
 import type {
   Category,
   ChildCategory,
 } from "../features/categories/categoryTypes";
-import CategoryForm from "./CategoryForm";
-
-interface CategoryFormData {
-  name: string;
-  description: string;
-  color: string;
-  parentId: string;
-}
+import useOutSideClick from "../hooks/useOutsideClick";
+import Modal from "../Components/Modal";
 
 const Categories: React.FC = () => {
   const { categories, isLoading } = useCategories();
@@ -34,12 +27,6 @@ const Categories: React.FC = () => {
   const [editingCategory, setEditingCategory] = useState<
     Category | ChildCategory | null
   >(null);
-  const [formData, setFormData] = useState<CategoryFormData>({
-    name: "",
-    description: "",
-    color: "#3b82f6",
-    parentId: "",
-  });
 
   // Method to get the filteredList
   let filteredList = categories;
@@ -54,57 +41,12 @@ const Categories: React.FC = () => {
   const parentCategory = filteredList?.map((cat) => ({
     categoryName: cat.categoryName,
     categoryId: cat.id,
+    categoryType: cat.categoryType,
   }));
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (editingCategory) {
-      // Update existing category
-      setCategories((prev) =>
-        prev.map((cat) =>
-          cat.id === editingCategory.id
-            ? {
-                ...cat,
-                ...formData,
-                updatedAt: new Date().toISOString().split("T")[0],
-              }
-            : cat
-        )
-      );
-    } else {
-      // Add new category
-      const newCategory: Category = {
-        id: Date.now().toString(),
-        ...formData,
-        parentId: formData.parentId || undefined,
-        createdAt: new Date().toISOString().split("T")[0],
-        updatedAt: new Date().toISOString().split("T")[0],
-      };
-      setCategories((prev) => [...prev, newCategory]);
-    }
-
-    resetForm();
-  };
 
   const handleEdit = (category: Category | ChildCategory) => {
     setEditingCategory(category);
     setShowModal(true);
-  };
-
-  const handleDelete = (categoryId: string) => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete this category? This will also delete all subcategories."
-      )
-    ) {
-      // Delete category and all its children
-      setCategories((prev) =>
-        prev.filter(
-          (cat) => cat.id !== categoryId && cat.parentId !== categoryId
-        )
-      );
-    }
   };
 
   if (isLoading) {
@@ -154,18 +96,13 @@ const Categories: React.FC = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-transparent bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div
-            className="bg-white rounded-xl shadow-xl w-full max-w-md"
-            ref={ref}
-          >
-            <CategoryForm
-              editingCategory={editingCategory}
-              resetForm={resetForm}
-              parentCategory={parentCategory}
-            />
-          </div>
-        </div>
+        <Modal ref={ref}>
+          <CategoryForm
+            editingCategory={editingCategory}
+            resetForm={resetForm}
+            parentCategory={parentCategory}
+          />
+        </Modal>
       )}
     </div>
   );

@@ -20,7 +20,6 @@ function CategoryItem({
       <CategoryContent
         isChild={false}
         color={category.color}
-        hasChildren={true}
         toggleExpand={toggleExpand}
         expand={expand}
         categoryName={category.categoryName}
@@ -28,6 +27,7 @@ function CategoryItem({
         description={category.description ?? ""}
         handleEdit={handleEdit}
         category={category}
+        categoryType={category.categoryType}
       />
 
       {hasChildren && (
@@ -41,7 +41,6 @@ function CategoryItem({
               <CategoryContent
                 isChild={true}
                 color={cat.color}
-                hasChildren={false}
                 toggleExpand={toggleExpand}
                 expand={expand}
                 categoryName={cat.categoryName}
