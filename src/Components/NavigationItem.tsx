@@ -16,8 +16,8 @@ function NavigationItem({
         className={({ isActive }) =>
           `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
             isActive
-              ? "bg-blue-50 text-blue-700"
-              : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-400"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
           }`
         }
         onClick={handleCloseSidebar}

@@ -72,10 +72,10 @@ function CategoryForm({
 
     const data = {
       category_name: formData.categoryName,
-      category_type: catType,
       color: formData.color ?? "#ef4444",
       description: formData.categoryDescription,
       parent_id: parentId && parseInt(parentId),
+      category_type: catType,
       user_id: user?.id,
     };
 
