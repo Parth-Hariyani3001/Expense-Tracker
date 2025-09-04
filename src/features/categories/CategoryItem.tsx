@@ -16,7 +16,7 @@ function CategoryItem({
   const toggleExpand = () => setExpand((expand) => !expand);
 
   return (
-    <div className="gap-4 bg-white rounded-xl shadow-sm mb-3 overflow-hidden transition-all duration-300 hover:shadow-md">
+    <div className="gap-4 bg-white rounded-xl shadow-sm mb-3 overflow-hidden transition-all duration-300 hover:shadow-md dark:bg-gray-800">
       <CategoryContent
         isChild={false}
         color={category.color}
@@ -32,12 +32,12 @@ function CategoryItem({
 
       {hasChildren && (
         <div
-          className={`bg-gradient-to-r from-gray-50 to-gray-100/50 transition-all duration-500 ease-in-out overflow-hidden ${
+          className={`dark:hover:bg-gray-700/50  transition-all duration-500 ease-in-out overflow-hidden ${
             expand ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           {childCategory.map((cat) => (
-            <div key={cat.id} className="pt-2">
+            <div key={cat.id} className=" dark:bg-gray-800">
               <CategoryContent
                 isChild={true}
                 color={cat.color}

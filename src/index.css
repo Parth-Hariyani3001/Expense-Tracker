@@ -20,6 +20,10 @@ body {
   animation: loading 1s infinite linear;
 }
 
+.dark .loader {
+  --c: no-repeat linear-gradient(rgb(138, 136, 136) 0 0);
+}
+
 @keyframes loading {
   20% {
     background-position: 0% 0%, 50% 50%, 100% 50%;

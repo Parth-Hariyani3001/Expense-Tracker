@@ -95,22 +95,25 @@ function CategoryForm({
 
   return (
     <>
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900">
+      <div className="p-6 border-b  dark:bg-gray-800 border-gray-200 transition-colors duration-300 dark:border-gray-600">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
           {editingCategory ? "Edit Category" : "Add New Category"}
         </h2>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="p-6 space-y-4 dark:bg-gray-800 transition-colors duration-300"
+      >
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
             Category Name *
           </label>
           <input
             required={true}
             type="text"
             placeholder="Enter category name"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
             {...register("categoryName", {
               required: "This field is required",
               minLength: {
@@ -122,12 +125,12 @@ function CategoryForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
             Description
           </label>
           <textarea
             placeholder="Enter description (optional)"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
             {...register("categoryDescription", {
               minLength: {
                 value: 3,
@@ -139,12 +142,12 @@ function CategoryForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
             Parent Category
           </label>
           <select
             {...register("categorySelector")}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
           >
             {/* This option points to parent category */}
             {!isChild && <option value="">(Parent Category)</option>}
@@ -162,13 +165,13 @@ function CategoryForm({
 
         {(!isChild || !editingCategory) && selectedCategory === "" && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
               Category Type
             </label>
 
             <select
               {...register("categoryType")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
             >
               {categoryTypeList.map((type) => (
                 <option key={type} value={type}>
@@ -180,7 +183,7 @@ function CategoryForm({
         )}
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
             Color
           </label>
           <div className="grid grid-cols-9 gap-2">
@@ -206,7 +209,7 @@ function CategoryForm({
           <button
             type="button"
             onClick={resetForm}
-            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors dark:text-white dark:hover:text-gray-600"
           >
             Cancel
           </button>

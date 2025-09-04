@@ -1,4 +1,4 @@
-import { Filter, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import React, { useState } from "react";
 import FullPage from "../Components/FullPage";
 import Spinner from "../Components/Spinner";
@@ -58,7 +58,7 @@ const Categories: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen">
       {/* Header */}
       <CategoryHeader
         handleShowModal={handleShowModal}
@@ -66,25 +66,15 @@ const Categories: React.FC = () => {
       />
 
       {/* Search and Filters */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search categories..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-          <div className="flex items-center space-x-3">
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-              <Filter className="w-4 h-4" />
-              <span>Filter</span>
-            </button>
-          </div>
-        </div>
+      <div className="relative mb-6">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <input
+          type="text"
+          placeholder="Search categories..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors duration-300"
+        />
       </div>
 
       {/* Categories List */}

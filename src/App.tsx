@@ -10,6 +10,7 @@ import ProtectedRoute from "./Components/ProtectedRoute.tsx";
 import Categories from "./pages/Categories.tsx";
 import Transactions from "./pages/Transactions.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
+import Budget from "./pages/Budget.tsx";
 
 const client = new QueryClient({
   defaultOptions: {
@@ -38,6 +39,7 @@ function App() {
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="categories" element={<Categories />} />
+              <Route path="budget" element={<Budget />} />
               <Route path="transactions" element={<Transactions />} />
             </Route>
           </Routes>

@@ -1,10 +1,11 @@
-import { ArrowRightLeft, Home, Notebook } from "lucide-react";
+import { ArrowRightLeft, Home, Notebook, Target } from "lucide-react";
 import type { NavigationType } from "../types/generalTypes";
 import NavigationItem from "./NavigationItem";
 
 const navigationItems: NavigationType[] = [
   { icon: Home, label: "Dashboard", path: "/dashboard", active: true },
   { icon: Notebook, label: "Expense Categories", path: "/categories" },
+  { icon: Target, label: "Budget Management", path: "/budget" },
   { icon: ArrowRightLeft, label: "Transactions", path: "/transactions" },
 ];
 
