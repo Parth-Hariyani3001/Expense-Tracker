@@ -1,0 +1,28 @@
+budget_summary: {
+        Row: {
+          budget_amount: number | null
+          budget_period_end: string | null
+          budget_period_from: string | null
+          parent_category: string | null
+          parent_category_color: string | null
+          parent_category_id: number | null
+          remaining_budget: number | null
+          spent_amount: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
+
+
+budget_breakdown: {
+        Row: {
+          category_name: string
+          color: string
+          id: number
+          parent_id: number
+          sum: number
+          transaction_date: string
+        }
+        Relationships: []
+      }
+

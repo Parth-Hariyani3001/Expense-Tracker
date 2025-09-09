@@ -18,12 +18,12 @@ const Categories: React.FC = () => {
 
   const resetForm = () => {
     setEditingCategory(null);
-    setShowModal(false);
+    setShowEditModal(false);
   };
 
   const { ref } = useOutSideClick(resetForm);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<
     Category | ChildCategory | null
   >(null);
@@ -35,7 +35,7 @@ const Categories: React.FC = () => {
   );
 
   // Method to show the Modal
-  const handleShowModal = () => setShowModal(true);
+  const handleShowModal = () => setShowEditModal(true);
 
   // get parent category
   const parentCategory = filteredList?.map((cat) => ({
@@ -46,7 +46,7 @@ const Categories: React.FC = () => {
 
   const handleEdit = (category: Category | ChildCategory) => {
     setEditingCategory(category);
-    setShowModal(true);
+    setShowEditModal(true);
   };
 
   if (isLoading) {
@@ -84,8 +84,8 @@ const Categories: React.FC = () => {
         ))}
       </div>
 
-      {/* Modal */}
-      {showModal && (
+      {/* Edit Modal */}
+      {showEditModal && (
         <Modal ref={ref}>
           <CategoryForm
             editingCategory={editingCategory}

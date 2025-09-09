@@ -11,7 +11,7 @@ export const useBudget = () => {
 
     const { data: budgetSummary, error, isPending: isLoading } = useQuery({
         queryKey: ['budgetSummary'],
-        queryFn: () => getBudgetSummary({ userId: user?.id })
+        queryFn: () => getBudgetSummary()
     });
 
     if (error)

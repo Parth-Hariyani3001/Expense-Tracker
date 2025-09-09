@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { Category, ChildCategory } from "./categoryTypes";
 import CategoryContent from "./CategoryContent";
+import ConfirmationModal from "../../Components/ConfirmationComponent";
+import { useDeleteCategory } from "./useDeleteCategory";
 
 function CategoryItem({
   category,
@@ -10,10 +12,22 @@ function CategoryItem({
   handleEdit: (category: Category | ChildCategory) => void;
 }) {
   const [expand, setExpand] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const { deleteCategory, isDeleting } = useDeleteCategory();
   const hasChildren = category.childCategories.length > 0;
   const childCategory = category.childCategories;
 
   const toggleExpand = () => setExpand((expand) => !expand);
+  const handleDeleteModalOpen = () => {
+    setDeleteOpen(true);
+  };
+  const handleDelete = () => {
+    deleteCategory(category.id, {
+      onSuccess: () => {
+        setDeleteOpen(false);
+      },
+    });
+  };
 
   return (
     <div className="gap-4 bg-white rounded-xl shadow-sm mb-3 overflow-hidden transition-all duration-300 hover:shadow-md dark:bg-gray-800">
@@ -28,6 +42,7 @@ function CategoryItem({
         handleEdit={handleEdit}
         category={category}
         categoryType={category.categoryType}
+        handleDelete={handleDeleteModalOpen}
       />
 
       {hasChildren && (
@@ -48,11 +63,25 @@ function CategoryItem({
                 description={cat.description ?? ""}
                 handleEdit={handleEdit}
                 category={cat}
+                handleDelete={handleDeleteModalOpen}
               />
             </div>
           ))}
         </div>
       )}
+
+      {/* Delete Modal */}
+      <ConfirmationModal
+        isOpen={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+        onConfirm={handleDelete}
+        title="Delete Categories"
+        message={`Are you sure you want to delete the category ${category.categoryName}? This action will delete all the data that is associted with this category `}
+        confirmText="Delete Cateogory"
+        cancelText="Cancel"
+        type="danger"
+        isLoading={isDeleting}
+      />
     </div>
   );
 }

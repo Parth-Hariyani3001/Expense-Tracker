@@ -38,3 +38,13 @@ body {
     background-position: 0% 50%, 50% 50%, 100% 100%;
   }
 }
+
+:root {
+  --color-bg-toast: var(--color-grey-0);
+  --color-text-toast: var(--color-grey-700);
+}
+
+.dark {
+  --color-bg-toast: var(--color-grey-800);
+  --color-text-toast: var(--color-grey-200);
+}

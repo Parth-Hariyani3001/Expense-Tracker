@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import ProtectedRoute from "./Components/ProtectedRoute.tsx";
 import Categories from "./pages/Categories.tsx";
 import Transactions from "./pages/Transactions.tsx";
-import { ThemeProvider } from "./context/ThemeContext.tsx";
+import { useTheme } from "./context/ThemeContext.tsx";
 import Budget from "./pages/Budget.tsx";
 
 const client = new QueryClient({
@@ -21,53 +21,55 @@ const client = new QueryClient({
 });
 
 function App() {
+  const {
+    context: { isDarkMode },
+  } = useTheme();
+
+  console.log(isDarkMode);
+
   return (
-    <ThemeProvider>
-      <QueryClientProvider client={client}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <BrowserRouter>
-          <Routes>
-            <Route path="signin" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate replace to="dashboard" />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="categories" element={<Categories />} />
-              <Route path="budget" element={<Budget />} />
-              <Route path="transactions" element={<Transactions />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-        <Toaster
-          position="top-center"
-          gutter={12}
-          containerStyle={{
-            margin: "8px",
-          }}
-          toastOptions={{
-            success: {
-              duration: 3000,
-            },
-            error: {
-              duration: 5000,
-            },
-            style: {
-              fontSize: "16px",
-              maxWidth: "500px",
-              padding: "16px 24px",
-              backgroundColor: "var(--color-grey-0)",
-              color: "var(--color-grey-700",
-            },
-          }}
-        />
-      </QueryClientProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={client}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="signin" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="budget" element={<Budget />} />
+            <Route path="transactions" element={<Transactions />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{
+          margin: "8px",
+        }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+          },
+        }}
+      />
+    </QueryClientProvider>
   );
 }
 

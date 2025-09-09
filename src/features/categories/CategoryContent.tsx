@@ -12,6 +12,7 @@ function CategoryContent({
   handleEdit,
   category,
   categoryType,
+  handleDelete,
 }: {
   isChild: boolean;
   color: string;
@@ -23,11 +24,8 @@ function CategoryContent({
   handleEdit: (category: Category | ChildCategory) => void;
   category: ChildCategory | Category;
   categoryType?: CategoryType;
+  handleDelete: () => void;
 }) {
-  function placeholderFunction() {
-    console.log("called");
-  }
-
   const getTypeColor = (type: string) => {
     switch (type) {
       case "income":
@@ -113,7 +111,7 @@ function CategoryContent({
         </button>
         {/* onClick={() => handleDelete(category.id)} */}
         <button
-          onClick={placeholderFunction}
+          onClick={handleDelete}
           className="p-2.5 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-all duration-200 hover:shadow-sm"
         >
           <Trash2 className="w-4 h-4 transition-transform hover:scale-110" />
