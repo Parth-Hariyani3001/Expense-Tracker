@@ -48,3 +48,40 @@ body {
   --color-bg-toast: var(--color-grey-800);
   --color-text-toast: var(--color-grey-200);
 }
+
+/* Light mode */
+.rdp {
+  --rdp-accent-color: #2563eb; /* blue-600 */
+  --rdp-accent-background-color: #dbeafe; /* blue-100 */
+  --rdp-background-color: #ffffff; /* white */
+  --rdp-day-color: #111827; /* gray-900 */
+  --rdp-range-middle-background-color: #bfdbfe; /* blue-200 */
+  --rdp-range-end-background-color: #2563eb; /* blue-600 */
+  --rdp-range-end-color: #ffffff; /* white */
+}
+
+/* Dark mode */
+.dark .rdp {
+  --rdp-accent-color: #60a5fa; /* blue-400 */
+  --rdp-accent-background-color: #1e3a8a; /* blue-900 */
+  --rdp-background-color: #111827; /* gray-900 */
+  --rdp-day-color: #f9fafb; /* gray-50 */
+  --rdp-range-middle-background-color: #1d4ed8; /* blue-700 */
+  --rdp-range-end-background-color: #3b82f6; /* blue-500 */
+  --rdp-range-end-color: #ffffff; /* white */
+}
+
+/* select.rdp-dropdown.rdp-months_dropdown {
+
+} */
+
+select.rdp-dropdown.rdp-months_dropdown {
+  @apply px-3 py-2 rounded-md border border-gray-300 bg-white text-gray-800
+         dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600;
+}
+
+/* Year dropdown select */
+select.rdp-dropdown.rdp-years_dropdown {
+  @apply px-3 py-2 rounded-md border border-gray-300 bg-white text-gray-800
+         dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600;
+}

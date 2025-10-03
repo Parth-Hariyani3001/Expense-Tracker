@@ -1,4 +1,4 @@
-import { Menu, User, Search, DollarSign, Sun, Moon } from "lucide-react";
+import { Menu, User, Search, Sun, Moon } from "lucide-react";
 import Logout from "./Logout";
 import { useUser } from "../hooks/useUser";
 import { useTheme } from "../context/ThemeContext";
@@ -25,8 +25,9 @@ function AppHeader({ toggleSidebar }: { toggleSidebar: () => void }) {
           </button>
 
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <DollarSign className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+              {/* <DollarSign className="w-5 h-5 text-white" /> */}
+              <img src="budget.png" alt="app-logo" />
             </div>
             <h1 className="text-xl font-bold text-gray-900 hidden sm:block dark:text-white tracking-wider">
               Expense Tracker

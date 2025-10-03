@@ -1,12 +1,16 @@
-import { Calendar, Plus, Target, TrendingDown, TrendingUp } from "lucide-react";
+import { Plus, Target, TrendingDown, TrendingUp } from "lucide-react";
+import "react-day-picker/dist/style.css";
+import RangeDatePicker from "../../Components/RangeDatePicker";
 import BudgetStatItem from "./BudgetStatItem";
 import type { BudgetSummary } from "./budgetTypes";
 
-function BudgetHeader({ budget }: { budget: BudgetSummary[] }) {
-  function handlerMethod() {
-    console.log("clicked");
-  }
-
+function BudgetHeader({
+  budget,
+  openModal,
+}: {
+  budget: BudgetSummary[];
+  openModal: () => void;
+}) {
   // Calculate total budget for a time period
   const totalBudget = budget.reduce((acc, item) => item.budget_amount + acc, 0);
 
@@ -27,13 +31,10 @@ function BudgetHeader({ budget }: { budget: BudgetSummary[] }) {
             Track and manage your spending budgets
           </p>
         </div>
-        <div className="flex items-center space-x-3 mt-4 sm:mt-0">
-          <button className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300">
-            <Calendar className="w-4 h-4" />
-            <span className="text-sm">This Month</span>
-          </button>
+        <div className="flex items-center space-x-3 mt-4 sm:mt-0 relative">
+          <RangeDatePicker />
           <button
-            onClick={handlerMethod}
+            onClick={openModal}
             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
           >
             <Plus className="w-4 h-4" />

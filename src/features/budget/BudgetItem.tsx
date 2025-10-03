@@ -6,11 +6,17 @@ import {
   Target,
   Trash2,
 } from "lucide-react";
-import type { BudgetBreakdownList, BudgetSummary } from "./budgetTypes";
+import type {
+  BudgetBreakdownList,
+  BudgetEditForm,
+  BudgetSummary,
+} from "./budgetTypes";
 import BudgetProgress from "./BudgetProgress";
 import { formatCurrency } from "../../utils/helpers";
 import { useBudgetBreakdown } from "./useBudgetBreakdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDatePicker } from "../../context/DatePickerContext";
+import { format, parseISO } from "date-fns";
 
 function getBudgetStatus(progress: number) {
   if (progress >= 100)
@@ -34,8 +40,17 @@ function getBudgetStatus(progress: number) {
   };
 }
 
-function BudgetItem({ budget }: { budget: BudgetSummary }) {
+function BudgetItem({
+  budget,
+  handleEdit,
+}: {
+  budget: BudgetSummary;
+  handleEdit: (budget: BudgetEditForm) => void;
+}) {
   const { getBudgetBreakdown, isLoading } = useBudgetBreakdown();
+  const {
+    context: { range },
+  } = useDatePicker();
   const [isExpanded, setIsExpanded] = useState(false);
   const [budgetBreakdown, setBudgetBreakdown] = useState<
     BudgetBreakdownList[] | undefined
@@ -52,14 +67,17 @@ function BudgetItem({ budget }: { budget: BudgetSummary }) {
     budget_period_end: periodTo,
   } = budget;
 
-  async function toggleBudgetBreakdown(catId: number) {
-    try {
-      setIsExpanded((expanded) => !expanded);
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    async function fetchBudgetBreakdown() {
+      const dateFrom = format(range.from as Date, "yyyy-MM-dd");
+      const dateTo = format(range.to as Date, "yyyy-MM-dd");
 
       const response = await getBudgetBreakdown({
-        categoryId: catId,
-        dateFrom: "01-01-1999",
-        dateTo: "01-01-2029",
+        categoryId: id,
+        dateFrom,
+        dateTo,
       });
 
       const data: Record<number, BudgetBreakdownList> = {};
@@ -82,10 +100,10 @@ function BudgetItem({ budget }: { budget: BudgetSummary }) {
       });
 
       setBudgetBreakdown(Object.values(data));
-    } catch (err) {
-      console.error(err);
     }
-  }
+
+    fetchBudgetBreakdown();
+  }, [isExpanded, id, getBudgetBreakdown, range]);
 
   const percentageProgress =
     budgetAmount > 0 ? (spentAmount / budgetAmount) * 100 : 0;
@@ -95,6 +113,17 @@ function BudgetItem({ budget }: { budget: BudgetSummary }) {
 
   function placeholderMethod() {
     console.log("placeholder");
+  }
+
+  function handleEditBudget() {
+    const dateFrom = parseISO(periodFrom);
+    const dateTo = parseISO(periodTo);
+
+    handleEdit({
+      budgetAmount,
+      dateFrom,
+      dateTo,
+    });
   }
 
   return (
@@ -123,7 +152,7 @@ function BudgetItem({ budget }: { budget: BudgetSummary }) {
               <span className="text-sm font-medium">{status.label}</span>
             </div>
             <button
-              onClick={placeholderMethod}
+              onClick={handleEditBudget}
               className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-300"
             >
               <Edit2 className="w-4 h-4" />
@@ -189,7 +218,7 @@ function BudgetItem({ budget }: { budget: BudgetSummary }) {
           {spentAmount > 0 && (
             <div className="pt-3 border-t border-gray-100 dark:border-gray-700">
               <button
-                onClick={() => toggleBudgetBreakdown(id)}
+                onClick={() => setIsExpanded((expanded) => !expanded)}
                 disabled={isLoading}
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-300 disabled:opacity-50"
               >

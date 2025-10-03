@@ -12,7 +12,7 @@ export function useSignin() {
         mutationFn: ({ email, password }: LoginProps) => signinApi({ email, password }),
         onSuccess: (user) => {
             queryClient.setQueryData(['user'], user.user)
-            navigate('/dashboard', { replace: true })
+            navigate('/categories', { replace: true })
         },
         onError: (e) => toast.error(e.message)
     });

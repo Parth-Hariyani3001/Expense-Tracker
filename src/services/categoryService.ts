@@ -1,3 +1,4 @@
+import type { ParentCategory } from "../features/budget/budgetTypes";
 import type {
     Category,
     CategoryCreate,
@@ -10,6 +11,18 @@ export async function getCategoryData() {
     if (error) throw new Error(error.message);
 
     return data as Category[];
+}
+
+export async function getParentCategories() {
+    const { data, error } = await supabase
+        .from('categories')
+        .select("category_name, id")
+        .is('parent_id', null)
+
+    if (error)
+        throw new Error(error.message)
+
+    return data as ParentCategory[]
 }
 
 export async function createCategory({
